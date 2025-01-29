@@ -20,5 +20,6 @@ class NotificationController:
 
         notifications = Notification.query.filter_by(user_id=user).all()
         
-        return 'Ok', 200, notifications
-    
+        notifications_serialized = [n.serialize for n in notifications]
+        
+        return 'Ok', 200, notifications_serialized

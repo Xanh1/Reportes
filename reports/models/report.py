@@ -1,17 +1,26 @@
 import uuid
 from datetime import datetime
+from enum import Enum
 
 from app import DB
 
-class Notification(DB.Model):
+class ReportStatus(Enum):
+    PENDING = "pending"
+    IN_PROGRESS = "in_progress"
+    RESOLVED = "resolved"
+    CLOSED = "closed"
+
+class Report(DB.Model):
     
     # table name
-    __tablename__ = 'notifications'
+    __tablename__ = 'reports'
     
     # fields
     id          = DB.Column(DB.Integer, primary_key=True)
     uid         = DB.Column(DB.String(60), default=str(uuid.uuid4()), nullable=False)
-    description = DB.Column(DB.String(255), nullable=False)
+    subject     = DB.Column(DB.String(255), nullable=False)
+    description = DB.Column(DB.Text, nullable=False)
+    status      = DB.Column(DB.Enum(ReportStatus), nullable=False, default=ReportStatus.PENDING)
     user_id     = DB.Column(DB.Integer, nullable=False)
     
     # audit fields
@@ -23,7 +32,7 @@ class Notification(DB.Model):
     def serialize(self):
         return {
             'uid': self.uid,
+            'subject': self.subject,
             'description': self.description,
-            'user_id': self.user_id,
-            'created_at': self.created_at,
+            'status': self.status.value,
         }

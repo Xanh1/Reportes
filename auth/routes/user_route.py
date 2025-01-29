@@ -9,7 +9,7 @@ user_url = Blueprint('user_url', __name__)
 
 user_controller = UserController()
 
-@user_url.route('/sign-up', methods = ['POST'])
+@user_url.route('/auth/sign-up', methods = ['POST'])
 @expects_json(create_user)
 def sign_up():
     
@@ -19,7 +19,7 @@ def sign_up():
 
     return make_response(jsonify({'msg': msg, 'code': code, 'context': context}), 200)
 
-@user_url.route('/sign-in', methods = ['POST'])
+@user_url.route('/auth/sign-in', methods = ['POST'])
 @expects_json(create_user)
 def sign_in():
     

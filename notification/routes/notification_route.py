@@ -20,10 +20,10 @@ def notify():
     return make_response(jsonify({'msg': msg, 'code': code, 'context': context}), 200)
 
 @notification_url.route('/notification/all/<uid>', methods = ['GET'])
-def notification_all():
+def notification_all(uid):
     
     json = request.json
     
-    msg, code, context  = notification_controller.create(data = json)
+    msg, code, context  = notification_controller.get_notifications_by_user(uid)
     
     return make_response(jsonify(json_response(msg, code, context)), code)

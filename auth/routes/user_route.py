@@ -15,9 +15,9 @@ def sign_up():
     
     json = request.json
     
-    msg, code, context  = user_controller.create(data = json)
-    
-    return make_response(jsonify(json_response(msg, code, context)), code)
+    msg, context, code = user_controller.create(data = json)
+
+    return make_response(jsonify({'msg': msg, 'code': code, 'context': context}), 200)
 
 @user_url.route('/sign-in', methods = ['POST'])
 @expects_json(create_user)

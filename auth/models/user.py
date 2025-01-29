@@ -1,26 +1,26 @@
 import uuid
 from datetime import datetime
 
-from app import Base
+from app import DB
 
-class User(Base.Model):
+class User(DB.Model):
 
     # table name
     __tablename__ = 'users'
 
     # fields
-    id        = Base.Column(Base.Integer, primary_key = True)
-    uid       = Base.Column(Base.String(60), default = str(uuid.uuid4()), nullable = False)
-    dni       = Base.Column(Base.String(10), nullable = False, unique = True)
-    name      = Base.Column(Base.String(50), nullable = False)
-    last_name = Base.Column(Base.String(50), nullable = False)
-    email     = Base.Column(Base.String(250), nullable = False, unique = True)
-    password  = Base.Column(Base.String(162), nullable = False)
-    status    = Base.Column(Base.Boolean, nullable = False)
+    id        = DB.Column(DB.Integer, primary_key = True)
+    uid       = DB.Column(DB.String(60), default = str(uuid.uuid4()), nullable = False)
+    dni       = DB.Column(DB.String(10), nullable = False, unique = True)
+    name      = DB.Column(DB.String(50), nullable = False)
+    last_name = DB.Column(DB.String(50), nullable = False)
+    email     = DB.Column(DB.String(250), nullable = False, unique = True)
+    password  = DB.Column(DB.String(162), nullable = False)
+    status    = DB.Column(DB.Boolean, nullable = False, default=True)
     
     # audit fields
-    created_at = Base.Column(Base.DateTime, default = datetime.now)
-    updated_at = Base.Column(Base.DateTime, default = datetime.now, onupdate = datetime.now)
+    created_at = DB.Column(DB.DateTime, default = datetime.now)
+    updated_at = DB.Column(DB.DateTime, default = datetime.now, onupdate = datetime.now)
     
     # methods
     @property

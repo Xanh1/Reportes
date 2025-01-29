@@ -25,7 +25,7 @@ class UserController:
         user = User()
         user.dni = data['dni']
         user.name = data['name']
-        user.last_name = data['last_name']
+        user.last_name = data['last-name']
         user.email = data['email']
         user.password = generate_password_hash(data['password'])
 

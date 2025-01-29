@@ -17,9 +17,9 @@ def create_app():
     DB.init_app(app)
     
     with app.app_context():
-        from routes.user_route import user_url
+        from routes.notification_route import notification_url
         
-        app.register_blueprint(user_url)
+        app.register_blueprint(notification_url)
 
         init()
         

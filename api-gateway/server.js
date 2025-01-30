@@ -5,12 +5,16 @@ const cors = require('cors');
 
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:3001", // Permitir solo el frontend en localhost:3001
+    methods: "GET,POST,PUT,DELETE",
+    allowedHeaders: "Content-Type,Authorization,X-Access-Token,headers", // Añadir 'headers' aquí
+}));
 
 const SERVICES = {
-    auth: process.env.AUTH_SERVICE_URL || 'http://localhost:5000',
+    auth: process.env.AUTH_SERVICE_URL || 'http://localhost:5001',
     notifications: process.env.NOTIFICATIONS_SERVICE_URL || 'http://localhost:5002',
-    reports: process.env.REPORTS_SERVICE_URL || 'http://localhost:5001',
+    reports: process.env.REPORTS_SERVICE_URL || 'http://localhost:5000',
 };
 
 const proxyRequest = async (req, res, serviceUrl) => {
@@ -26,7 +30,7 @@ const proxyRequest = async (req, res, serviceUrl) => {
     }
 };
 
-app.use('/auth', (req, res) => proxyRequest(req, res, SERVICES.auth));
+app.use('/users', (req, res) => proxyRequest(req, res, SERVICES.auth));
 app.use('/notifications', (req, res) => proxyRequest(req, res, SERVICES.notifications));
 app.use('/reports', (req, res) => proxyRequest(req, res, SERVICES.reports));
 

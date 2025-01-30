@@ -21,7 +21,9 @@ class Config:
     db = environ.get('MYSQL_DATABASE')
     
     # SQLAlchemy Confing
-    SQLALCHEMY_DATABASE_URI = f'mysql://{user}:{password}@{host}/{db}'
+    #SQLALCHEMY_DATABASE_URI = f'mysql://{user}:{password}@{host}/{db}'
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{path.join(base_dir, 'users.sqlite3')}"
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_RECORS_QUERIES = True
-    SQLALCHEMY_TRACK_MODIFICATIONS = 'enable'
+    #SQLALCHEMY_TRACK_MODIFICATIONS = 'enable'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False

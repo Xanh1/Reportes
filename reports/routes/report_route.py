@@ -9,7 +9,7 @@ report_url = Blueprint('report_url', __name__)
 
 report_controller = ReportController()
 
-@report_url.route('/create', methods = ['POST'])
+@report_url.route('/reports/create', methods = ['POST'])
 @expects_json(create_report)
 def create():
 
@@ -19,7 +19,7 @@ def create():
 
     return make_response(jsonify({'msg': msg, 'code': code, 'context': context}), 200)
 
-@report_url.route('/report/all/<uid>', methods = ['GET'])
+@report_url.route('/reports/all/<uid>', methods = ['GET'])
 def notification_all(uid):
     
     json = request.json

@@ -25,7 +25,7 @@ class UserController:
         user = User()
         user.dni = data['dni']
         user.name = data['name']
-        user.last_name = data['last-name']
+        user.last_name = data['last_name']
         user.email = data['email']
         user.password = generate_password_hash(data['password'])
 
@@ -36,7 +36,7 @@ class UserController:
     
     def log_in(self, values):
 
-        user = self.get_by_username(values['username'])
+        user = self.get_by_email(values['email'])
 
         if not user:
             return 'Error', 401, 'Las credenciales no son válidas'
@@ -55,3 +55,5 @@ class UserController:
 
         return 'Ok', 200, {'token': token, 'user': user.uid }
     
+    def get_by_email(self, email):
+        return User.query.filter_by(email=email).first()

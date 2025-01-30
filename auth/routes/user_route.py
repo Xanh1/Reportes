@@ -1,7 +1,7 @@
 from flask import Blueprint, jsonify, make_response, request
 from routes.utils import json_response
 from controllers.user_controller import UserController
-from routes.schemas.schema import create_user
+from routes.schemas.schema import create_user, login_user
 from flask_expects_json import expects_json
 
 
@@ -9,7 +9,7 @@ user_url = Blueprint('user_url', __name__)
 
 user_controller = UserController()
 
-@user_url.route('/auth/sign-up', methods = ['POST'])
+@user_url.route('/users/sign-up', methods = ['POST'])
 @expects_json(create_user)
 def sign_up():
     
@@ -19,12 +19,12 @@ def sign_up():
 
     return make_response(jsonify({'msg': msg, 'code': code, 'context': context}), 200)
 
-@user_url.route('/auth/sign-in', methods = ['POST'])
-@expects_json(create_user)
+@user_url.route('/users/sign-in', methods = ['POST'])
+@expects_json(login_user)
 def sign_in():
     
     json = request.json
     
-    msg, code, context  = user_controller.create(data = json)
+    msg, code, context  = user_controller.log_in(values = json)
     
     return make_response(jsonify(json_response(msg, code, context)), code)

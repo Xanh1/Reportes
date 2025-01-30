@@ -1,111 +1,101 @@
-"use client";
+import Image from "next/image";
 
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import swal from "sweetalert";
-import Cookies from "js-cookie";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-
-
-export default function login() {
-  const loginSchema = Yup.object().shape({
-    email: Yup.string().trim().required("Ingresa tu correo"),
-    password: Yup.string().trim().required("Ingresa tu contraseña"),
-  });
-
-  const router = useRouter();
-
-  const formOptions = { resolver: yupResolver(loginSchema) };
-  const { register, handleSubmit, formState } = useForm(formOptions);
-  let { errors } = formState;
-
-  const req = (data) => {
-    authPerson(data).then((info) => {
-      if (info.code == 200) {
-        Cookies.set("token", info.token);
-        Cookies.set("usuario", info.person);
-        Cookies.set("necesary", info.necesary);
-        swal({
-          title: "Acción Satisfactoria",
-          text: "Bienvenido " + info.person.replace(".", " "),
-          icon: "success",
-          button: "Accept",
-          timer: 4000,
-          closeOnEsc: true,
-        });
-        router.push("/person");
-        router.refresh();
-      } else {
-        swal({
-          title: "Error at login",
-          text: info.data.error,
-          icon: "error",
-          button: "Accept",
-          timer: 4000,
-          closeOnEsc: true,
-        });
-      }
-    });
-  };
-  const handleClick = () => {
-    router.push("/person/new");
-  };
-
+export default function Home() {
   return (
-    <main className="min-h-screen flex flex-col justify-center items-center">
-      <div className="flex flex-col justify-center items-center">
-        <h1 className="font-semibold text-xl">Reportes</h1>
-      </div>
-      <form className="my-8" onSubmit={handleSubmit(req)}>
-        <div className="max-w-md my-3">
-          <label htmlFor="email" className="block text-sm font-medium mb-2">
-            Correo Electrónico
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            {...register("email")}
-            className="py-2 px-2 block w-full border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
+      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
+        <Image
+          className="dark:invert"
+          src="/next.svg"
+          alt="Next.js logo"
+          width={180}
+          height={38}
+          priority
+        />
+        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
+          <li className="mb-2">
+            Get started by editing{" "}
+            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
+              src/app/page.js
+            </code>
+            .
+          </li>
+          <li>Save and see your changes instantly.</li>
+        </ol>
+
+        <div className="flex gap-4 items-center flex-col sm:flex-row">
+          <a
+            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
+            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Image
+              className="dark:invert"
+              src="/vercel.svg"
+              alt="Vercel logomark"
+              width={20}
+              height={20}
+            />
+            Deploy now
+          </a>
+          <a
+            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
+            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Read our docs
+          </a>
+        </div>
+      </main>
+      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/file.svg"
+            alt="File icon"
+            width={16}
+            height={16}
           />
-          <span className="block text-red-500 text-xs pl-1 min-h-5">
-            {errors.email?.message}
-          </span>
-        </div>
-        <div className="max-w-sm my-3">
-          <label htmlFor="password" className="block text-sm font-medium mb-2">
-            Contraseña
-          </label>
-          <input
-            type="password"
-            name="password"
-            id="password"
-            {...register("password")}
-            className="py-2 px-2 block w-full border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+          Learn
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/window.svg"
+            alt="Window icon"
+            width={16}
+            height={16}
           />
-          <span className="block text-red-500 text-xs pl-1 min-h-5">
-            {errors.password?.message}
-          </span>
-        </div>
-        <div className="my-4">
-          <button className="btn relative border block w-full font-medium border-gray-200 inline-flex items-center justify-start overflow-hidden transition-all rounded-lg text-sm hover:bg-white group py-2 px-2">
-            <span className="w-56 h-48 rounded bg-blue-500 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-            <span className="relative w-full text-center transition-colors duration-300 ease-in-out group-hover:text-white">
-              Iniciar Sesión
-            </span>
-          </button>
-        </div>
-        <div className="my-4">
-          <button className="btn relative border block w-full font-medium border-gray-200 inline-flex items-center justify-start overflow-hidden transition-all rounded-lg text-sm hover:bg-white group py-2 px-2"
-          onClick={handleClick}>
-            <span className="w-56 h-48 rounded bg-blue-500 absolute bottom-0 left-0 translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
-            <span className="relative w-full text-center transition-colors duration-300 ease-in-out group-hover:text-white">
-              Crear Cuenta
-            </span>
-          </button>
-        </div>
-      </form>
-    </main>
+          Examples
+        </a>
+        <a
+          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
+          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Image
+            aria-hidden
+            src="/globe.svg"
+            alt="Globe icon"
+            width={16}
+            height={16}
+          />
+          Go to nextjs.org →
+        </a>
+      </footer>
+    </div>
   );
 }
